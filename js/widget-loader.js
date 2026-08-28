@@ -1,46 +1,63 @@
 /*
- * Injects the real OwnerRez "Booking/Inquiry" widget into any element
- * with data-orez-widget="book" (used on the Home hero and the
- * Property/Booking page), using the IDs from ownerrez-config.js, then
- * loads OwnerRez's own widget.js once. This keeps availability,
- * quoting and booking/payment entirely on OwnerRez's side — no
- * custom booking logic is implemented here.
+ * Injects real OwnerRez widgets, using IDs from ownerrez-config.js, then
+ * loads OwnerRez's own widget.js once. No custom booking logic here —
+ * availability, quoting, and booking/payment all stay on OwnerRez.
+ *
+ * Two widget types, two jobs:
+ *  - data-orez-widget="search"  -> lightweight Availability/Property
+ *    Search (Check-in / Check-out / Guests + Search button) on the
+ *    Home hero. OwnerRez redirects to the property page with
+ *    ?or_arrival=...&or_departure=... on submit.
+ *  - data-orez-widget="book"    -> full Booking/Inquiry widget on the
+ *    Property/Booking page. Reads those same or_arrival/or_departure
+ *    params from the URL automatically (OwnerRez's own behavior).
  */
 (function () {
   var cfg = window.OWNERREZ_CONFIG || {};
-  var WIDGET_TYPE = "Booking/Inquiry";
+  var TYPES = {
+    search: { id: cfg.searchWidgetId, label: "Availability/Property Search" },
+    book: { id: cfg.bookWidgetId, label: "Booking/Inquiry" }
+  };
 
-  function notConfiguredMarkup() {
+  function notConfiguredMarkup(label) {
     return (
-      "<p>OwnerRez Booking/Inquiry widget is not configured yet. " +
-      "Set propertyId and bookWidgetId in js/ownerrez-config.js " +
+      "<p>OwnerRez " + label + " widget is not configured yet. " +
+      "Set the matching widget ID in js/ownerrez-config.js " +
       "(from OwnerRez &rarr; Settings &rarr; Widgets).</p>"
     );
   }
 
   function build() {
-    var slots = document.querySelectorAll('[data-orez-widget="book"]');
+    var slots = document.querySelectorAll("[data-orez-widget]");
     if (!slots.length) return;
 
-    var missing =
-      !cfg.propertyId || !cfg.bookWidgetId ||
-      /^REPLACE_WITH/.test(cfg.propertyId) || /^REPLACE_WITH/.test(cfg.bookWidgetId);
+    var needsScript = false;
+    var missingPropertyId = !cfg.propertyId || /^REPLACE_WITH/.test(cfg.propertyId);
 
     slots.forEach(function (slot) {
+      var kind = slot.getAttribute("data-orez-widget");
+      var type = TYPES[kind];
+      if (!type) return;
+
+      var widgetId = type.id;
+      var missing = missingPropertyId || !widgetId || /^REPLACE_WITH/.test(widgetId);
+
       if (missing) {
-        slot.innerHTML = notConfiguredMarkup();
+        slot.innerHTML = notConfiguredMarkup(type.label);
         return;
       }
+
       var div = document.createElement("div");
       div.className = "ownerrez-widget";
       div.setAttribute("data-propertyId", cfg.propertyId);
-      div.setAttribute("data-widget-type", WIDGET_TYPE);
-      div.setAttribute("data-widgetId", cfg.bookWidgetId);
+      div.setAttribute("data-widget-type", type.label);
+      div.setAttribute("data-widgetId", widgetId);
       slot.innerHTML = "";
       slot.appendChild(div);
+      needsScript = true;
     });
 
-    if (!missing && !document.querySelector('script[src="' + cfg.widgetScriptSrc + '"]')) {
+    if (needsScript && !document.querySelector('script[src="' + cfg.widgetScriptSrc + '"]')) {
       var s = document.createElement("script");
       s.src = cfg.widgetScriptSrc;
       s.async = true;

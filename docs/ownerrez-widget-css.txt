@@ -1,0 +1,93 @@
+/* =========================================================
+   OwnerRez Widget CSS Magic — Sunset View Retreat
+   Paste this into: OwnerRez -> Settings -> Widgets ->
+   (click the widget) -> Change -> scroll to the CSS field -> Save.
+
+   Best-effort: OwnerRez widgets typically use Bootstrap 3-style
+   classes (form-group, form-control, glyphicon, btn-primary/default).
+   If something below doesn't visibly change, right-click that exact
+   element -> Inspect -> Styles tab (not Computed) and send me the
+   selector shown there — I'll adjust.
+========================================================= */
+
+/* Widget background + base font, matching the site */
+body {
+  background: #FFFDF8 !important;
+  font-family: -apple-system, "Segoe UI", Arial, sans-serif !important;
+  color: #25251F !important;
+}
+
+/* Field labels */
+.form-group label,
+label {
+  color: #303B2E !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .04em !important;
+}
+
+/* Text inputs, date fields, selects */
+.form-control,
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+select {
+  border: 1px solid #E3DCC9 !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  box-shadow: none !important;
+  color: #25251F !important;
+}
+.form-control:focus,
+input:focus,
+select:focus {
+  border-color: #DC5319 !important;
+  box-shadow: 0 0 0 3px rgba(220,83,25,.15) !important;
+}
+
+/* Calendar / date icon (covers Glyphicons and Font Awesome variants) */
+.input-group-addon,
+.glyphicon-calendar,
+.fa-calendar,
+.fa-calendar-alt,
+.date-icon,
+[class*="calendar"] {
+  background: #EBA41E !important;
+  color: #303B2E !important;
+  border-color: #EBA41E !important;
+  border-radius: 8px !important;
+}
+
+/* Primary action — Book Now */
+.btn-primary,
+button[type="submit"],
+input[value="Book Now"],
+input[value="Search"] {
+  background: #DC5319 !important;
+  border-color: #DC5319 !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .04em !important;
+  padding: 10px 22px !important;
+}
+.btn-primary:hover,
+button[type="submit"]:hover {
+  background: #A42729 !important;
+  border-color: #A42729 !important;
+}
+
+/* Secondary action — Send Inquiry */
+.btn-default,
+input[value="Send Inquiry"] {
+  background: transparent !important;
+  border: 1.5px solid #303B2E !important;
+  color: #303B2E !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .04em !important;
+  padding: 10px 22px !important;
+}
