@@ -1,92 +1,13 @@
-/* =========================================================
-   OwnerRez Widget CSS Magic — Sunset View Retreat (v4)
-   Paste this into: OwnerRez -> Settings -> Widgets ->
-   Availability/Property Search widget -> Change -> CSS field.
-
-   This version is based on the REAL widget HTML (fetched directly
-   from the widget's own URL), not guesses. Confirmed structure:
-     div#search-bar-widget.row
-       > div.col-sm-5.search-bar-field  (Arrival)
-       > div.col-sm-5.search-bar-field  (Departure)
-       > div.col-sm-1.search-bar-button (Search)
-   Icons are Font Awesome (<i class="fa fa-calendar">,
-   <i class="fas fa-search">) inside a plain .btn.btn-default —
-   recoloring icons via `color` on the <i> is safe; the previous
-   version broke by putting background/border-radius directly on
-   the <i> itself.
-========================================================= */
-
-/* Widget background, matching the site's card color */
-body {
-  background: #FFFDF8 !important;
-  color: #25251F !important;
-}
-
-/* Date inputs */
-.form-control {
-  border: 1px solid #E3DCC9 !important;
-  border-radius: 10px 0 0 10px !important;
-  padding: 10px 12px !important;
-  box-shadow: none !important;
-  color: #25251F !important;
-  height: 42px !important;
-}
-.form-control:focus {
-  border-color: #DC5319 !important;
-  box-shadow: 0 0 0 3px rgba(220,83,25,.15) !important;
-}
-
-/* Calendar icon button — recolor the wrapper, not the icon glyph itself */
-.input-group-btn .btn.btn-default {
-  background: #EBA41E !important;
-  border: 1px solid #EBA41E !important;
-  border-radius: 0 10px 10px 0 !important;
-  height: 42px !important;
-}
-.input-group-btn .btn.btn-default .fa-calendar {
-  color: #303B2E !important;
-}
-
-/* Search button */
-#search-bar-widget button[type="submit"] {
-  background: #DC5319 !important;
-  border: 1px solid #DC5319 !important;
-  color: #FFFFFF !important;
-  border-radius: 999px !important;
-  font-weight: 700 !important;
-  letter-spacing: .03em !important;
-  padding: 10px 22px !important;
-  height: 42px !important;
-  white-space: nowrap !important;
-}
-#search-bar-widget button[type="submit"]:hover {
-  background: #A42729 !important;
-  border-color: #A42729 !important;
-}
-#search-bar-widget button[type="submit"] .fa-search {
-  color: #FFFFFF !important;
-  margin-right: 6px !important;
-}
-
-/* Layout — one row: Arrival | Departure | Search */
-#search-bar-widget.row {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  align-items: flex-start !important;
-  gap: 12px !important;
-}
-.search-bar-field {
-  width: auto !important;
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-}
-.search-bar-button {
-  width: auto !important;
-  flex: 0 0 auto !important;
-}
-
-/* Stack on genuinely small screens so nothing gets crushed */
-@media (max-width: 480px) {
-  #search-bar-widget.row { flex-wrap: wrap !important; }
-  .search-bar-field, .search-bar-button { flex: 1 1 100% !important; }
-}
+#search-bar-widget{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:0!important;background:#FFFFFF!important;border:1px solid #E3DCC9!important;border-radius:999px!important;padding:6px!important;margin:0!important}
+.search-bar-field{flex:1 1 auto!important;width:auto!important;padding:0 16px!important;border-right:1px solid #E3DCC9!important}
+.search-bar-field:last-of-type{border-right:none!important}
+.search-bar-button{flex:0 0 auto!important;width:auto!important;padding:0 4px!important}
+.form-group{margin:0!important}
+.input-group{display:flex!important;align-items:center!important}
+.form-control{border:none!important;box-shadow:none!important;background:transparent!important;padding:10px 0!important;height:auto!important;color:#25251F!important;font-size:14px!important}
+.input-group-btn .btn.btn-default{background:transparent!important;border:none!important;box-shadow:none!important;padding:0 0 0 6px!important}
+.input-group-btn .fa-calendar{color:#A8AF24!important;font-size:14px!important}
+#search-bar-widget button[type=submit]{background:#DC5319!important;border:none!important;color:#fff!important;border-radius:999px!important;font-weight:700!important;padding:12px 26px!important;white-space:nowrap!important}
+#search-bar-widget button[type=submit]:hover{background:#A42729!important}
+#search-bar-widget .fa-search{color:#fff!important;margin-right:6px!important}
+@media(max-width:480px){#search-bar-widget{flex-wrap:wrap!important;border-radius:20px!important}.search-bar-field{border-right:none!important;border-bottom:1px solid #E3DCC9!important;width:100%!important;flex:1 1 100%!important}.search-bar-button{width:100%!important;flex:1 1 100%!important;padding:10px 14px!important}}
