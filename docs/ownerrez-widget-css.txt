@@ -1,13 +1,98 @@
-#search-bar-widget{display:flex!important;flex-wrap:nowrap!important;align-items:center!important;gap:0!important;background:#FFFFFF!important;border:1px solid #E3DCC9!important;border-radius:999px!important;padding:6px!important;margin:0!important}
-.search-bar-field{flex:1 1 auto!important;width:auto!important;padding:0 16px!important;border-right:1px solid #E3DCC9!important}
-.search-bar-field:last-of-type{border-right:none!important}
-.search-bar-button{flex:0 0 auto!important;width:auto!important;padding:0 4px!important}
-.form-group{margin:0!important}
-.input-group{display:flex!important;align-items:center!important}
-.form-control{border:none!important;box-shadow:none!important;background:transparent!important;padding:10px 0!important;height:auto!important;color:#25251F!important;font-size:14px!important}
-.input-group-btn .btn.btn-default{background:transparent!important;border:none!important;box-shadow:none!important;padding:0 0 0 6px!important}
-.input-group-btn .fa-calendar{color:#A8AF24!important;font-size:14px!important}
-#search-bar-widget button[type=submit]{background:#DC5319!important;border:none!important;color:#fff!important;border-radius:999px!important;font-weight:700!important;padding:12px 26px!important;white-space:nowrap!important}
-#search-bar-widget button[type=submit]:hover{background:#A42729!important}
-#search-bar-widget .fa-search{color:#fff!important;margin-right:6px!important}
-@media(max-width:480px){#search-bar-widget{flex-wrap:wrap!important;border-radius:20px!important}.search-bar-field{border-right:none!important;border-bottom:1px solid #E3DCC9!important;width:100%!important;flex:1 1 100%!important}.search-bar-button{width:100%!important;flex:1 1 100%!important;padding:10px 14px!important}}
+/* Search bar container: pill shape, clears the floated fields inside */
+#search-bar-widget {
+  overflow: hidden !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E3DCC9 !important;
+  border-radius: 999px !important;
+  padding: 6px !important;
+  margin: 0 !important;
+}
+
+/* Arrival / Departure fields: floated side by side */
+.search-bar-field {
+  float: left !important;
+  width: 42% !important;
+  box-sizing: border-box !important;
+  padding: 0 16px !important;
+  border-right: 1px solid #E3DCC9 !important;
+}
+.search-bar-field:last-of-type {
+  border-right: none !important;
+}
+
+/* Search button wrapper: floated to the right of the two fields */
+.search-bar-button {
+  float: left !important;
+  width: 16% !important;
+  box-sizing: border-box !important;
+  padding: 0 4px !important;
+}
+
+/* Remove default Bootstrap spacing */
+.form-group {
+  margin: 0 !important;
+}
+.input-group {
+  white-space: nowrap !important;
+}
+
+/* Date text inputs: no border, transparent, sit flush in the pill */
+.form-control {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 10px 0 !important;
+  height: auto !important;
+  color: #25251F !important;
+  font-size: 14px !important;
+  width: 78% !important;
+}
+
+/* Calendar icon button: small, no box, just a colored icon */
+.input-group-btn {
+  display: inline-block !important;
+}
+.input-group-btn .btn.btn-default {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 0 0 6px !important;
+}
+.input-group-btn .fa-calendar {
+  color: #A8AF24 !important;
+  font-size: 14px !important;
+}
+
+/* Search button: solid orange pill */
+#search-bar-widget button[type="submit"] {
+  background: #DC5319 !important;
+  border: none !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  padding: 12px 18px !important;
+  white-space: nowrap !important;
+  width: 100% !important;
+}
+#search-bar-widget button[type="submit"]:hover {
+  background: #A42729 !important;
+}
+#search-bar-widget .fa-search {
+  color: #FFFFFF !important;
+  margin-right: 4px !important;
+}
+
+/* Stack vertically only on very small phones */
+@media (max-width: 560px) {
+  .search-bar-field, .search-bar-button {
+    float: none !important;
+    width: 100% !important;
+  }
+  .search-bar-field {
+    border-right: none !important;
+    border-bottom: 1px solid #E3DCC9 !important;
+  }
+  #search-bar-widget {
+    border-radius: 20px !important;
+  }
+}
