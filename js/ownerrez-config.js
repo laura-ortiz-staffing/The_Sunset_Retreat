@@ -18,5 +18,5 @@ window.OWNERREZ_CONFIG = {
   propertyId: "9381c0071c104ea3b40cb4fd6cb3e71f",
   bookWidgetId: "05507e9dd0b54ba3af9b5c4c46bff464",
   widgetScriptSrc: "https://app.ownerrez.com/widget.js",
-  availabilityApiUrl: "REPLACE_WITH_AVAILABILITY_API_URL",
+  availabilityApiUrl: "https://sunset-retreat.onrender.com",
 };
