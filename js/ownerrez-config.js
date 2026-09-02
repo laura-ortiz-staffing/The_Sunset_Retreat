@@ -1,18 +1,22 @@
 /*
- * OwnerRez widget configuration for Sunset View Retreat.
- * - searchWidgetId: "Availability/Property Search" widget — lightweight
- *   Check-in/Check-out/Guests bar on the Home hero. Create it in
- *   OwnerRez -> Settings -> Widgets -> Create Widget ->
- *   "Availability/Property Search (Multi Property)" (works fine with
- *   a single property). Set its redirect/"link to" target to
- *   property.html so dates carry over via ?or_arrival=&or_departure=.
- * - bookWidgetId: "Booking/Inquiry" widget — full form on the
- *   Property/Booking page. Already configured below.
+ * OwnerRez configuration for Sunset View Retreat.
+ * - bookWidgetId: "Booking/Inquiry" widget — the full form (dates,
+ *   guests, live quote, Book Now) on the Property/Booking page. Real
+ *   OwnerRez widget, unchanged.
+ * - availabilityApiUrl: our own small backend (see /server) that holds
+ *   OwnerRez API credentials and checks real availability for Home's
+ *   own date search UI (js/home-search.js). Not yet deployed —
+ *   placeholder until the backend is live on Render.
+ *
+ * Note: Home no longer uses an OwnerRez widget at all (the old
+ * "Availability/Property Search" widget was replaced — its ID isn't
+ * needed here anymore). That widget still exists in the OwnerRez
+ * account if ever needed again, just unused by this site.
  * ------------------------------------------------------------
  */
 window.OWNERREZ_CONFIG = {
   propertyId: "9381c0071c104ea3b40cb4fd6cb3e71f",
-  searchWidgetId: "d38f4dedd39d4cfeba95d2c20e33f28e",
   bookWidgetId: "05507e9dd0b54ba3af9b5c4c46bff464",
   widgetScriptSrc: "https://app.ownerrez.com/widget.js",
+  availabilityApiUrl: "REPLACE_WITH_AVAILABILITY_API_URL",
 };

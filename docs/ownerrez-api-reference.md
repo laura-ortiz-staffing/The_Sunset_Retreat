@@ -62,6 +62,26 @@ Response: `PageableEnumerableOfBookingViewModel` (`items`, `limit`,
 
 Related: `GET /v2/bookings/{id}`, `PATCH /v2/bookings/{id}`.
 
+## POST /v2/quotes — availability + pricing check (test mode)
+
+This is the endpoint the Home date search will use. `test: true` fully
+evaluates the quote (availability + pricing) without saving anything.
+
+Request body, minimum required for a test:
+| Field | Type | Notes |
+|---|---|---|
+| `property_id` | integer | our property's ID |
+| `arrival` | date (yyyy-MM-dd) | |
+| `departure` | date (yyyy-MM-dd) | |
+| `adults` | integer | from our Home "Guests" select |
+| `children` | integer | default 0, no field on our Home UI yet |
+| `pets` | integer | default 0 |
+| `test` | boolean | `true` — evaluate only, don't persist |
+
+Response: a `QuoteViewModel`. If the dates aren't available, the API
+returns an error/unavailable status rather than a priced quote (exact
+shape to confirm once we have credentials and can make a real call).
+
 ## Security note
 
 This site is static HTML/JS with no backend. The Basic Auth /

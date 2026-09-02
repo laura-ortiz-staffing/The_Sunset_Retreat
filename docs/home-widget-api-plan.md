@@ -1,6 +1,16 @@
-# Plan: Home date search via OwnerRez API (not yet started)
+# Plan: Home date search via OwnerRez API
 
-**Status:** Approved direction, pending API credentials. Documented here for the report — do not implement until confirmed to start.
+**Status:** Approved and in progress.
+- Done: frontend (`index.html`, `js/home-search.js`, CSS) — Home's own
+  date/guests search UI, replacing the OwnerRez widget there.
+- Done: backend scaffolding (`/server`) — Express proxy for
+  `POST /v2/quotes` (test mode), tested locally, returns the expected
+  "not configured" response with no credentials set.
+- **Blocked on:** real OwnerRez API credentials (email + Personal Access
+  Token) and the property's OwnerRez property ID, to actually call the
+  live API and deploy the backend on Render.
+- Not pushed to GitHub/Render yet per instruction — local only until
+  told to commit.
 
 ## Why
 The native OwnerRez "Availability/Property Search" widget on Home is embedded via a

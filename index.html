@@ -46,29 +46,39 @@
 
 <div class="wrap">
   <div class="booking-card floating">
-    <div class="guests-row">
-      <label for="home-guests">Guests</label>
-      <select id="home-guests" class="guests-select">
-        <option value="">Any</option>
-        <option value="1">1 guest</option>
-        <option value="2">2 guests</option>
-        <option value="3">3 guests</option>
-        <option value="4">4 guests</option>
-        <option value="5">5 guests</option>
-        <option value="6">6 guests</option>
-        <option value="7">7 guests</option>
-        <option value="8">8 guests</option>
-        <option value="9">9 guests</option>
-        <option value="10">10 guests</option>
-        <option value="11">11 guests</option>
-        <option value="12">12 guests</option>
-        <option value="13">13 guests</option>
-        <option value="14">14 guests</option>
-        <option value="15">15 guests</option>
-        <option value="16">16 guests</option>
-      </select>
-    </div>
-    <div class="ownerrez-widget-slot" data-orez-widget="search"></div>
+    <form id="home-search" class="own-search">
+      <div class="own-field">
+        <label for="home-arrival">Check-in</label>
+        <input type="date" id="home-arrival" required>
+      </div>
+      <div class="own-field">
+        <label for="home-departure">Check-out</label>
+        <input type="date" id="home-departure" required>
+      </div>
+      <div class="own-field">
+        <label for="home-guests">Guests</label>
+        <select id="home-guests">
+          <option value="1">1 guest</option>
+          <option value="2">2 guests</option>
+          <option value="3">3 guests</option>
+          <option value="4">4 guests</option>
+          <option value="5">5 guests</option>
+          <option value="6">6 guests</option>
+          <option value="7">7 guests</option>
+          <option value="8">8 guests</option>
+          <option value="9">9 guests</option>
+          <option value="10">10 guests</option>
+          <option value="11">11 guests</option>
+          <option value="12">12 guests</option>
+          <option value="13">13 guests</option>
+          <option value="14">14 guests</option>
+          <option value="15">15 guests</option>
+          <option value="16">16 guests</option>
+        </select>
+      </div>
+      <button type="submit" class="btn own-search-btn" id="home-search-btn">Check Availability</button>
+    </form>
+    <p id="home-search-msg" class="own-search-msg" hidden></p>
   </div>
 </div>
 
@@ -112,22 +122,22 @@
   <div class="wrap">
     <div class="grid-4">
       <div class="card tint-1">
-        <div class="card-icon">&#9678;</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 8.5c1.5-1.4 3-1.4 4.5 0s3 1.4 4.5 0 3-1.4 4.5 0 3 1.4 4.5 0"/><path d="M2 14.5c1.5-1.4 3-1.4 4.5 0s3 1.4 4.5 0 3-1.4 4.5 0 3 1.4 4.5 0"/></svg></div>
         <h3>Private pond</h3>
         <p>Enjoy a private beach area and plenty of space for long days outdoors.</p>
       </div>
       <div class="card tint-2">
-        <div class="card-icon">&#10022;</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2c1.3 3-2.6 4.4-2.6 8.2a2.6 2.6 0 0 0 5.2 0c0-1.2-.7-1.9-.7-3 1.3.9 2.4 2.7 2.4 4.6a4.9 4.9 0 0 1-9.8 0c0-4.2 3.2-5.3 5.5-9.8z"/></svg></div>
         <h3>Fireside evenings</h3>
         <p>Firewood is provided for relaxed evenings together around the property.</p>
       </div>
       <div class="card tint-3">
-        <div class="card-icon">&#9671;</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 11a7.5 7.5 0 0 1 15 0"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="7" y1="15" x2="5.5" y2="20"/><line x1="17" y1="15" x2="18.5" y2="20"/></svg></div>
         <h3>Outdoor cooking</h3>
         <p>Make the most of the gas grill and griddle during your stay.</p>
       </div>
       <div class="card tint-4">
-        <div class="card-icon">&#8599;</div>
+        <div class="card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polygon points="13.5,7.5 15,12 13.5,16.5 9,15 7.5,10.5 12,9" fill="currentColor" stroke="none"/></svg></div>
         <h3>Explore nearby</h3>
         <p>Hiking, wildlife, wineries, and local dining are just a short drive away.</p>
       </div>
@@ -222,12 +232,13 @@
     </div>
     <div>
       Questions? Contact us at check-in support:<br>
-      <a class="footer-phone" href="tel:+17174397206">717-439-7206</a>
+      <a class="footer-phone" href="tel:+17174397206">717-439-7206</a><br>
+      <a class="footer-email" href="mailto:john@jlapp.net">john@jlapp.net</a>
     </div>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
-<script src="js/widget-loader.js"></script>
+<script src="js/home-search.js"></script>
 </body>
 </html>
