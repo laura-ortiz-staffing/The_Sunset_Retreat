@@ -55,26 +55,36 @@
         <label for="home-departure">Check-out</label>
         <input type="date" id="home-departure" required>
       </div>
-      <div class="own-field">
-        <label for="home-guests">Guests</label>
-        <select id="home-guests">
-          <option value="1">1 guest</option>
-          <option value="2">2 guests</option>
-          <option value="3">3 guests</option>
-          <option value="4">4 guests</option>
-          <option value="5">5 guests</option>
-          <option value="6">6 guests</option>
-          <option value="7">7 guests</option>
-          <option value="8">8 guests</option>
-          <option value="9">9 guests</option>
-          <option value="10">10 guests</option>
-          <option value="11">11 guests</option>
-          <option value="12">12 guests</option>
-          <option value="13">13 guests</option>
-          <option value="14">14 guests</option>
-          <option value="15">15 guests</option>
-          <option value="16">16 guests</option>
-        </select>
+      <div class="own-field guest-picker" id="guest-picker">
+        <label id="guest-picker-label" for="guest-picker-btn">Guests</label>
+        <button type="button" class="guest-picker-btn" id="guest-picker-btn" aria-expanded="false">1 guest</button>
+        <div class="guest-picker-panel" id="guest-picker-panel" hidden>
+          <div class="guest-row">
+            <div class="guest-row-text"><strong>Adults</strong><span>Ages 13+</span></div>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="adults" data-delta="-1" aria-label="Decrease adults">-</button>
+              <span class="step-count" id="adults-count">1</span>
+              <button type="button" class="step-btn" data-target="adults" data-delta="1" aria-label="Increase adults">+</button>
+            </div>
+          </div>
+          <div class="guest-row">
+            <div class="guest-row-text"><strong>Children</strong><span>Ages 2-12</span></div>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="children" data-delta="-1" aria-label="Decrease children">-</button>
+              <span class="step-count" id="children-count">0</span>
+              <button type="button" class="step-btn" data-target="children" data-delta="1" aria-label="Increase children">+</button>
+            </div>
+          </div>
+          <div class="guest-row">
+            <div class="guest-row-text"><strong>Pets</strong><span>Max 2, approved breeds</span></div>
+            <div class="stepper">
+              <button type="button" class="step-btn" data-target="pets" data-delta="-1" aria-label="Decrease pets">-</button>
+              <span class="step-count" id="pets-count">0</span>
+              <button type="button" class="step-btn" data-target="pets" data-delta="1" aria-label="Increase pets">+</button>
+            </div>
+          </div>
+          <button type="button" class="btn guest-picker-done" id="guest-picker-done">Done</button>
+        </div>
       </div>
       <button type="submit" class="btn own-search-btn" id="home-search-btn">Check Availability</button>
     </form>

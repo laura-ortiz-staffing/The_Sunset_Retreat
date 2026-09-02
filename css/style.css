@@ -227,6 +227,38 @@ nav .btn { padding: 10px 22px; font-size: .85rem; }
 }
 .own-field input[type="date"]:focus, .own-field select:focus { border-color: var(--accent); outline: none; }
 .own-search-btn { flex: 0 0 auto; white-space: nowrap; }
+
+/* Guest picker (Adults / Children / Pets steppers) */
+.guest-picker { position: relative; }
+.guest-picker-btn {
+  padding: 11px 14px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--bg); color: var(--text); font-size: .92rem;
+  font-family: inherit; text-align: left; cursor: pointer;
+}
+.guest-picker-btn:focus, .guest-picker-btn[aria-expanded="true"] { border-color: var(--accent); outline: none; }
+.guest-picker-panel {
+  position: absolute; top: calc(100% + 8px); left: 0; z-index: 30;
+  width: 260px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px;
+}
+.guest-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.guest-row:last-of-type { border-bottom: none; }
+.guest-row-text { display: flex; flex-direction: column; }
+.guest-row-text strong { color: var(--forest); font-size: .88rem; }
+.guest-row-text span { color: var(--text-muted); font-size: .74rem; }
+.stepper { display: flex; align-items: center; gap: 10px; }
+.step-btn {
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border);
+  background: var(--surface); color: var(--forest); font-size: 1rem; font-weight: 700;
+  line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.step-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.step-btn:disabled { opacity: .35; cursor: not-allowed; }
+.step-count { min-width: 18px; text-align: center; font-weight: 700; color: var(--text); }
+.guest-picker-done { width: 100%; margin-top: 12px; padding: 9px; font-size: .82rem; }
 .own-search-msg {
   margin: 14px 2px 0; padding: 10px 14px; border-radius: 8px;
   background: #f4ebd5; color: var(--forest); font-size: .85rem; font-weight: 600;
