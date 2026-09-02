@@ -65,44 +65,70 @@ app.post("/api/availability", async function (req, res) {
     process.env.OWNERREZ_API_EMAIL + ":" + process.env.OWNERREZ_API_TOKEN
   ).toString("base64");
 
-  try {
+  var payload = JSON.stringify({
+    property_id: parseInt(process.env.OWNERREZ_PROPERTY_ID, 10),
+    arrival: arrival,
+    departure: departure,
+    adults: adults,
+    children: parseInt(body.children, 10) || 0,
+    pets: parseInt(body.pets, 10) || 0,
+    test: true
+  });
+
+  async function callQuote() {
     var orRes = await fetch(OWNERREZ_API_BASE + "/v2/quotes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Basic " + auth
       },
-      body: JSON.stringify({
-        property_id: parseInt(process.env.OWNERREZ_PROPERTY_ID, 10),
-        arrival: arrival,
-        departure: departure,
-        adults: adults,
-        children: parseInt(body.children, 10) || 0,
-        pets: parseInt(body.pets, 10) || 0,
-        test: true
-      })
+      body: payload
     });
-
     var data = await orRes.json().catch(function () { return null; });
+    return { status: orRes.status, ok: orRes.ok, data: data };
+  }
 
-    if (!orRes.ok) {
-      // OwnerRez returns an error/4xx for unavailable dates or bad input —
-      // relay a simple available:false rather than a raw 500 for the
-      // common "not available" case.
+  try {
+    var result = await callQuote();
+
+    // A clean 5xx, or a non-JSON body, means OwnerRez itself had a
+    // problem — not that the dates are unavailable. Retry once before
+    // giving up, since this has been observed to be transient.
+    if (!result.ok && (result.status >= 500 || result.data === null)) {
+      console.error("OwnerRez /v2/quotes transient failure, retrying:", result.status);
+      await new Promise(function (r) { setTimeout(r, 800); });
+      result = await callQuote();
+    }
+
+    if (!result.ok && (result.status >= 500 || result.data === null)) {
+      // Still failing after a retry — a real OwnerRez-side hiccup.
+      // Don't tell the guest "not available" for something that isn't
+      // actually a business answer; let the real Booking/Inquiry
+      // widget on the Property page be the final word instead.
+      console.error("OwnerRez /v2/quotes still failing after retry:", result.status, JSON.stringify(result.data));
+      return res.status(200).json({
+        available: null,
+        reason: "Could not check availability right now."
+      });
+    }
+
+    if (!result.ok) {
+      // A clean, parseable 4xx — a real business answer (not available,
+      // min-stay not met, etc.)
       return res.status(200).json({
         available: false,
-        reason: (data && (data.message || data.error)) || "Not available for these dates.",
-        status: orRes.status
+        reason: (result.data && (result.data.message || result.data.error)) || "Not available for these dates.",
+        status: result.status
       });
     }
 
     return res.status(200).json({
       available: true,
-      quote: data
+      quote: result.data
     });
   } catch (err) {
     console.error("OwnerRez API call failed:", err);
-    return res.status(502).json({ error: "Could not reach OwnerRez API" });
+    return res.status(200).json({ available: null, reason: "Could not check availability right now." });
   }
 });
 

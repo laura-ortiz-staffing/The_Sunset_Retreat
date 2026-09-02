@@ -85,10 +85,14 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(function (data) {
         btn.disabled = false;
         btn.textContent = originalText;
-        if (data && data.available) {
-          goToProperty();
+        if (data && data.available === false) {
+          // A real business answer from OwnerRez: genuinely not available.
+          showMsg(data.reason || "Not available for those dates — try different dates.", true);
         } else {
-          showMsg((data && data.reason) || "Not available for those dates — try different dates.", true);
+          // available:true, or available:null (a technical hiccup on
+          // OwnerRez's side) — don't block the guest either way; the
+          // real Booking/Inquiry widget on Property is the final word.
+          goToProperty();
         }
       })
       .catch(function () {
