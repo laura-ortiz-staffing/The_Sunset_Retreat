@@ -11,9 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       id: "home", home: true, tag: "You are here",
       name: "Sunset View Retreat",
-      desc: "177 Mallard Lane, Halifax, PA — your home base for the stay.",
-      lat: 40.4691, lng: -76.9315,
-      link: "property.html", linkText: "See the property &rarr;"
+      desc: "177 Mallard Lane, Halifax, PA. GPS often routes to 285 Harman Road first (pinned here) &mdash; from there it's about &frac12; mile to the driveway.",
+      lat: 40.5248065, lng: -76.8008860,
+      link: "property.html", linkText: "See the property &rarr;",
+      directions: "https://www.google.com/maps/search/?api=1&query=285+Harman+Road%2C+Halifax%2C+PA+17032"
     },
     {
       id: "tobias", tag: "Family favorite", letter: "L", color: "c-forest",
@@ -101,11 +102,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var tipHtml = '<div class="svr-tip">' + thumb + "<strong>" + p.name + "</strong></div>";
 
+    var directionsHtml = p.directions
+      ? '<a class="map-link" href="' + p.directions + '" target="_blank" rel="noopener">Get directions &rarr;</a>'
+      : "";
+
     var popupHtml =
       '<div class="svr-popup-head">' + thumb +
       '<div><span class="tag">' + p.tag + "</span><h4>" + p.name + "</h4></div></div>" +
       "<p>" + p.desc + "</p>" +
-      '<a class="map-link" href="' + linkHref + '"' + linkAttrs + ">" + linkText + "</a>";
+      '<a class="map-link" href="' + linkHref + '"' + linkAttrs + ">" + linkText + "</a>" +
+      directionsHtml;
 
     var marker = L.marker([p.lat, p.lng], { icon: icon, title: p.name }).addTo(map);
 

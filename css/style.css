@@ -3,12 +3,16 @@
    "Palette 1 — Autumn" global CSS (Kombú / Marigold / Haute Couture /
    Furious Fox / Citron). Copied verbatim, not re-sampled. */
 :root {
-  --bg: #f7f3e9;           /* ivory */
+  /* --bg: #f7f3e9;        original ivory, commented out for off-white testing */
+  /* Off-white options to try (uncomment one at a time): */
+  /*--bg: #fffcf5;           /* option 1 */
+   /*--bg: #fbf7f4;        /*option 2*/
+   --bg: #fffbf0;       /* option 3 */
   --surface: #fffdf8;      /* paper */
   --text: #25251f;         /* ink */
   --text-muted: #706c63;   /* muted */
   --border: rgba(48,59,46,.13); /* line */
-  --accent: #dc5319;       /* orange — primary CTA */
+  --accent: #ec8618;       /* orange — primary CTA */
   --accent-dark: #a42729;  /* red — CTA hover */
   --forest: #303b2e;       /* kombú green */
   --forest-soft: #566348;
@@ -114,10 +118,16 @@ nav .btn { padding: 10px 22px; font-size: .85rem; }
 .nav-toggle span {
   display: block; position: absolute; left: 0;
   width: 26px; height: 2px; background: var(--forest); border-radius: 2px;
+  transition: transform .28s ease, opacity .2s ease, top .28s ease;
 }
 .nav-toggle span:nth-child(1) { top: 1px; }
 .nav-toggle span:nth-child(2) { top: 9px; }
 .nav-toggle span:nth-child(3) { top: 17px; }
+
+/* Hamburger -> X, driven purely by nav's own .open state (no extra JS) */
+nav.open ~ .nav-toggle span:nth-child(1) { top: 9px; transform: rotate(45deg); }
+nav.open ~ .nav-toggle span:nth-child(2) { opacity: 0; }
+nav.open ~ .nav-toggle span:nth-child(3) { top: 9px; transform: rotate(-45deg); }
 
 @media (max-width: 860px) {
   .logo { font-size: 1rem; white-space: nowrap; }
@@ -155,10 +165,31 @@ nav .btn { padding: 10px 22px; font-size: .85rem; }
   align-items: center;
   width: 100%;
 }
+.hero-slider { position: absolute; inset: 0; z-index: 0; }
 .hero-inner img.hero-bg {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover; z-index: 0;
+}
+.hero-slider .hero-slide {
+  opacity: 0;
+  animation: hero-fade 36s infinite;
+}
+.hero-slider .hero-slide:nth-child(1) { animation-delay: 0s; }
+.hero-slider .hero-slide:nth-child(2) { animation-delay: 6s; }
+.hero-slider .hero-slide:nth-child(3) { animation-delay: 12s; }
+.hero-slider .hero-slide:nth-child(4) { animation-delay: 18s; }
+.hero-slider .hero-slide:nth-child(5) { animation-delay: 24s; }
+.hero-slider .hero-slide:nth-child(6) { animation-delay: 30s; }
+@keyframes hero-fade {
+  0%, 100% { opacity: 0; }
+  1.5% { opacity: 1; }
+  15% { opacity: 1; }
+  16.5% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-slider .hero-slide { animation: none; opacity: 0; }
+  .hero-slider .hero-slide:first-child { opacity: 1; }
 }
 .hero-inner::before {
   content: "";
@@ -265,8 +296,11 @@ nav .btn { padding: 10px 22px; font-size: .85rem; }
 }
 .own-search-msg.is-error { background: #f6e6df; color: var(--accent-dark); }
 @media (max-width: 560px) {
-  .own-search { flex-direction: column; align-items: stretch; }
-  .own-search-btn { width: 100%; }
+  .own-search { flex-direction: column; align-items: stretch; gap: 10px; }
+  .own-field { flex: 0 0 auto; gap: 4px; min-width: 0; }
+  .own-search-btn { width: 100%; margin-top: 4px; }
+  .booking-card { padding: 16px; }
+  .guest-picker-panel { width: 100%; left: 0; right: 0; }
 }
 
 .ownerrez-widget-slot {
@@ -449,7 +483,7 @@ section.dark p { color: #cfd6c5; }
 .svr-popup .tag { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
 .svr-popup h4 { margin: 2px 0 0; font-family: Georgia, serif; color: var(--forest); font-size: 1.02rem; font-weight: 400; }
 .svr-popup p { margin: 0 0 10px; font-size: .82rem; color: var(--text-muted); line-height: 1.5; }
-.svr-popup a.map-link { font-size: .78rem; font-weight: 700; color: var(--accent-dark); text-decoration: none; }
+.svr-popup a.map-link { display: block; font-size: .78rem; font-weight: 700; color: var(--accent-dark); text-decoration: none; margin-top: 4px; }
 .svr-popup a.map-link:hover { text-decoration: underline; }
 .leaflet-container { font-family: inherit; }
 @media (max-width: 700px) {
