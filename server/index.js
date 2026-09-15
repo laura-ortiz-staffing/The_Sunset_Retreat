@@ -132,6 +132,67 @@ app.post("/api/availability", async function (req, res) {
   }
 });
 
+// --- Reviews (real guest reviews synced into OwnerRez from Airbnb, Vrbo,
+// etc. via the channel connections) — cached briefly so the Reviews page
+// stays current without hammering OwnerRez on every visitor. ---
+var reviewsCache = { data: null, fetchedAt: 0 };
+var REVIEWS_CACHE_MS = 60 * 60 * 1000; // 1 hour
+
+app.get("/api/reviews", async function (req, res) {
+  var missing = missingEnv();
+  if (missing.length) {
+    return res.status(500).json({ error: "Server not configured", missingEnv: missing });
+  }
+
+  if (reviewsCache.data && Date.now() - reviewsCache.fetchedAt < REVIEWS_CACHE_MS) {
+    return res.status(200).json({ reviews: reviewsCache.data });
+  }
+
+  var auth = Buffer.from(
+    process.env.OWNERREZ_API_EMAIL + ":" + process.env.OWNERREZ_API_TOKEN
+  ).toString("base64");
+
+  var url = OWNERREZ_API_BASE + "/v2/reviews?property_id=" +
+    encodeURIComponent(process.env.OWNERREZ_PROPERTY_ID) + "&active=true";
+
+  try {
+    var orRes = await fetch(url, {
+      headers: { "Authorization": "Basic " + auth }
+    });
+    var data = await orRes.json().catch(function () { return null; });
+
+    if (!orRes.ok || !data) {
+      console.error("OwnerRez /v2/reviews failed:", orRes.status);
+      // Serve stale cache rather than an empty page, if we have one.
+      if (reviewsCache.data) return res.status(200).json({ reviews: reviewsCache.data });
+      return res.status(200).json({ reviews: [] });
+    }
+
+    var reviews = (data.items || [])
+      .filter(function (r) { return r.visible !== false && r.body; })
+      .map(function (r) {
+        return {
+          id: r.id,
+          title: r.title || "",
+          body: r.body,
+          stars: r.stars,
+          display_name: r.display_name || "Verified guest",
+          display_location: r.display_location || "",
+          listing_site: r.listing_site || "",
+          date: r.date
+        };
+      })
+      .sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+
+    reviewsCache = { data: reviews, fetchedAt: Date.now() };
+    return res.status(200).json({ reviews: reviews });
+  } catch (err) {
+    console.error("OwnerRez /v2/reviews call failed:", err);
+    if (reviewsCache.data) return res.status(200).json({ reviews: reviewsCache.data });
+    return res.status(200).json({ reviews: [] });
+  }
+});
+
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
   console.log("Availability proxy listening on port " + PORT);

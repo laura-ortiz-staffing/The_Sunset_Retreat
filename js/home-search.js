@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var pickerBtn = document.getElementById("guest-picker-btn");
   var pickerPanel = document.getElementById("guest-picker-panel");
   var counts = { adults: 1, children: 0, pets: 0 };
-  var limits = { adults: { min: 1, max: 16 }, children: { min: 0, max: 10 }, pets: { min: 0, max: 2 } };
+  var limits = { adults: { min: 1, max: 20 }, children: { min: 0, max: 10 }, pets: { min: 0, max: 2 } };
 
   function updateStepUI() {
     Object.keys(counts).forEach(function (key) {

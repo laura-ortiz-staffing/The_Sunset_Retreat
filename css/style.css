@@ -406,6 +406,22 @@ section.dark p { color: #cfd6c5; }
 .area-card.c3 { background: linear-gradient(140deg, #d8db77, var(--citron)); color: var(--forest); }
 .area-card.c3 h3 { color: var(--forest) !important; }
 
+/* Reviews page */
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+@media (max-width: 900px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .reviews-grid { grid-template-columns: 1fr; } }
+.review-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 24px; display: flex; flex-direction: column; gap: 10px;
+}
+.review-stars { color: var(--gold); font-size: 1.05rem; letter-spacing: 2px; }
+.review-title { margin: 0; font-size: 1.05rem; }
+.review-body { color: var(--text); font-size: .92rem; line-height: 1.55; flex: 1; }
+.review-meta { font-size: .78rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 10px; }
+.review-author { display: block; font-weight: 700; color: var(--forest); }
+.review-location { display: block; font-style: italic; color: var(--text-muted); }
+.review-stay { display: block; margin-top: 4px; }
+
 /* Elegant section framing */
 .section-intro { max-width: 640px; margin: 0 auto 44px; text-align: center; }
 .section-intro .eyebrow { justify-content: center; }
