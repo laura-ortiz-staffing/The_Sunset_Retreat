@@ -264,7 +264,8 @@ nav.open ~ .nav-toggle span:nth-child(3) { top: 9px; transform: rotate(-45deg); 
 .flatpickr-day.today { border-color: var(--accent); }
 .flatpickr-day:hover { background: var(--border); }
 .flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover {
-  color: var(--text-muted); opacity: .4; text-decoration: line-through; cursor: not-allowed;
+  color: #d0342c; background: #fbe1df; border-color: #fbe1df;
+  text-decoration: line-through; font-weight: 800; opacity: 1; cursor: not-allowed;
 }
 .flatpickr-months .flatpickr-month, .flatpickr-current-month .flatpickr-monthDropdown-months { color: var(--forest); fill: var(--forest); }
 span.flatpickr-weekday { color: var(--forest); }
