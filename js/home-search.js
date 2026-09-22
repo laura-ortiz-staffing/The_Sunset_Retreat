@@ -20,17 +20,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var today = new Date();
   var todayStr = today.toISOString().slice(0, 10);
-  arrivalEl.min = todayStr;
 
-  arrivalEl.addEventListener("change", function () {
-    if (!arrivalEl.value) return;
-    var next = new Date(arrivalEl.value);
-    next.setDate(next.getDate() + 1);
-    departureEl.min = next.toISOString().slice(0, 10);
-    if (departureEl.value && departureEl.value <= arrivalEl.value) {
-      departureEl.value = departureEl.min;
+  // --- Calendar pickers that show real unavailable dates greyed out,
+  // fetched from our backend (which reads OwnerRez's own calendar) ---
+  var arrivalPicker = null;
+  var departurePicker = null;
+
+  if (window.flatpickr) {
+    arrivalPicker = flatpickr(arrivalEl, {
+      dateFormat: "Y-m-d",
+      minDate: todayStr,
+      disable: [],
+      onChange: function (selectedDates, dateStr) {
+        if (!dateStr) return;
+        var next = new Date(dateStr);
+        next.setDate(next.getDate() + 1);
+        var nextStr = next.toISOString().slice(0, 10);
+        if (departurePicker) {
+          departurePicker.set("minDate", nextStr);
+          if (departureEl.value && departureEl.value <= dateStr) {
+            departurePicker.setDate(nextStr, true);
+          }
+        }
+      }
+    });
+    departurePicker = flatpickr(departureEl, {
+      dateFormat: "Y-m-d",
+      minDate: todayStr,
+      disable: []
+    });
+
+    var apiUrlForCalendar = cfg.availabilityApiUrl;
+    if (apiUrlForCalendar && !/^REPLACE_WITH/.test(apiUrlForCalendar)) {
+      fetch(apiUrlForCalendar + "/api/calendar")
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          var unavailable = (data && data.unavailable) || [];
+          if (arrivalPicker) arrivalPicker.set("disable", unavailable);
+          if (departurePicker) departurePicker.set("disable", unavailable);
+        })
+        .catch(function () {
+          // If this fails, the pickers just fall back to no greyed-out
+          // dates — the real availability check on submit still applies.
+        });
     }
-  });
+  }
 
   // --- Guest picker (Adults / Children / Pets) ---
   var picker = document.getElementById("guest-picker");

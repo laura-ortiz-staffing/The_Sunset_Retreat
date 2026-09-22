@@ -6,6 +6,7 @@
 <title>Sunset View Retreat | Whole-Home Rental in Halifax, PA</title>
 <meta name="description" content="Sunset View Retreat is a family-friendly whole-home rental in Halifax, PA with a private pond, hot tub, and room for up to 16 guests. Book direct for the best rate.">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous">
 <script src="js/ownerrez-config.js"></script>
 </head>
 <body>
@@ -57,11 +58,11 @@
     <form id="home-search" class="own-search">
       <div class="own-field">
         <label for="home-arrival">Check-in</label>
-        <input type="date" id="home-arrival" required>
+        <input type="text" id="home-arrival" placeholder="Select date" autocomplete="off" required>
       </div>
       <div class="own-field">
         <label for="home-departure">Check-out</label>
-        <input type="date" id="home-departure" required>
+        <input type="text" id="home-departure" placeholder="Select date" autocomplete="off" required>
       </div>
       <div class="own-field guest-picker" id="guest-picker">
         <label id="guest-picker-label" for="guest-picker-btn">Guests</label>
@@ -258,6 +259,7 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" integrity="sha384-5JqMv4L/Xa0hfvtF06qboNdhvuYXUku9ZrhZh3bSk8VXF0A/RuSLHpLsSV9Zqhl6" crossorigin="anonymous"></script>
 <script src="js/home-search.js"></script>
 </body>
 </html>

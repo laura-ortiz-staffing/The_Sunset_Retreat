@@ -193,6 +193,61 @@ app.get("/api/reviews", async function (req, res) {
   }
 });
 
+// --- Calendar (which nights are booked/blocked) — powers the Home page
+// date pickers so guests see unavailable dates greyed out instead of
+// picking a date and only finding out afterward. Cached briefly since
+// the calendar doesn't need to be second-by-second fresh. ---
+var calendarCache = { data: null, fetchedAt: 0 };
+var CALENDAR_CACHE_MS = 60 * 60 * 1000; // 1 hour
+
+app.get("/api/calendar", async function (req, res) {
+  var missing = missingEnv();
+  if (missing.length) {
+    return res.status(500).json({ error: "Server not configured", missingEnv: missing });
+  }
+
+  if (calendarCache.data && Date.now() - calendarCache.fetchedAt < CALENDAR_CACHE_MS) {
+    return res.status(200).json({ unavailable: calendarCache.data });
+  }
+
+  var auth = Buffer.from(
+    process.env.OWNERREZ_API_EMAIL + ":" + process.env.OWNERREZ_API_TOKEN
+  ).toString("base64");
+
+  var today = new Date();
+  var oneYearOut = new Date(today);
+  oneYearOut.setDate(oneYearOut.getDate() + 365);
+  var from = today.toISOString().slice(0, 10);
+  var to = oneYearOut.toISOString().slice(0, 10);
+
+  var url = OWNERREZ_API_BASE + "/v2/calendar/" + encodeURIComponent(process.env.OWNERREZ_PROPERTY_ID) +
+    "?from=" + from + "&to=" + to;
+
+  try {
+    var orRes = await fetch(url, {
+      headers: { "Authorization": "Basic " + auth }
+    });
+    var data = await orRes.json().catch(function () { return null; });
+
+    if (!orRes.ok || !data) {
+      console.error("OwnerRez /v2/calendar failed:", orRes.status);
+      if (calendarCache.data) return res.status(200).json({ unavailable: calendarCache.data });
+      return res.status(200).json({ unavailable: [] });
+    }
+
+    var unavailable = (data.days || [])
+      .filter(function (d) { return d.status && String(d.status).toLowerCase() !== "available"; })
+      .map(function (d) { return String(d.date).slice(0, 10); });
+
+    calendarCache = { data: unavailable, fetchedAt: Date.now() };
+    return res.status(200).json({ unavailable: unavailable });
+  } catch (err) {
+    console.error("OwnerRez /v2/calendar call failed:", err);
+    if (calendarCache.data) return res.status(200).json({ unavailable: calendarCache.data });
+    return res.status(200).json({ unavailable: [] });
+  }
+});
+
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
   console.log("Availability proxy listening on port " + PORT);
